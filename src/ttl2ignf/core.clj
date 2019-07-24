@@ -28,14 +28,15 @@ Where:
     (log/error msg)))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Pretty-prints the contents of an RDF file in IGraph Normal Form."
   [& args]
   (if-let [endpoint (System/getenv "SPARQL_ENDPOINT")]
     (let [path (first args)
           file (io/file path)
+          graph-hash (hash file)
           ]
       (if (.exists file)
-        (let [graph-uri (keyword "http://dummy.graph")
+        (let [graph-uri (keyword (str "http://dummy.graph/" graph-hash))
               client (sparql/make-graph
                      :graph-uri graph-uri
                      :query-url (str (ensure-final endpoint \/) "query")
@@ -43,14 +44,27 @@ Where:
 
               ]
           (try
-            (sparql/update-endpoint client "DROP GRAPH <http://dummy.graph>")
-            (sparql/update-endpoint client "CREATE GRAPH <http://dummy.graph>")
-            (sparql/update-endpoint client (str "LOAD <file://" (.getAbsolutePath file) "> INTO GRAPH <http://dummy.graph>"))
+            (sparql/update-endpoint
+             client
+             (str "DROP GRAPH <http://dummy.graph/" graph-hash ">"))
+            (sparql/update-endpoint
+             client
+             (str "CREATE GRAPH <http://dummy.graph/" graph-hash ">"))
+            (sparql/update-endpoint
+             client
+             (str "LOAD <file://"
+                  (.getAbsolutePath file)
+                  "> INTO GRAPH <http://dummy.graph/"
+                  graph-hash
+                  ">"))
             (catch Error e
-              (log-error "QUERY FAILED")))
-          (println (str (ig/normal-form client))))
+              (log-error (str "LOAD FAILED for endoint "
+                              endpoint
+                              " and path "
+                              path))))
+          (clojure.pprint/pprint (ig/normal-form client)))
         
         (log-error (str path " does not exist."))))
         
     ;; else no endpoint envar
-    (log-error  "No env var for SPARQL_ENDPOINT")))
+    (log-error  "No env var for SPARQL_ENDPOINT.")))
