@@ -1,32 +1,15 @@
 # ttl2ignf
 
-FIXME: description
+A simple utility to translate ttl files into igraph normal form.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Watch this space
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar ttl2ignf-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    EXPORT SPARQL_ENDPOINT "uri-of-endpoint with update priv's"
+    $ java -jar ttl2ignf-0.1.0-standalone.jar <ttl-file> > <destination-file>
 
 ## License
 
