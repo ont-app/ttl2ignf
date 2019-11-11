@@ -1,6 +1,6 @@
 # ttl2ignf
 
-A simple utility to translate ttl files into igraph normal form.
+A simple utility to translate ttl files into IGraph normal form.
 
 ## Installation
 
@@ -8,12 +8,32 @@ Watch this space
 
 ## Usage
 
-    EXPORT SPARQL_ENDPOINT "uri-of-endpoint with update priv's"
-    $ java -jar ttl2ignf-0.1.0-standalone.jar <ttl-file> > <destination-file>
+Possibly edit env/config.edn as
+
+```
+{
+ :sparql-endpoint "http://path/to/my/endpoint/with/update/privs"
+}
+```
+
+Or in a console:
+```
+$ EXPORT SPARQL_ENDPOINT "http://path/to/my/endpoint/with/update/privs"
+```
+Then 
+```
+$ java -jar ttl2ignf-0.1.0-standalone.jar <ttl-file> > <destination-file>
+```
+
+Or 
+
+```
+lein run <ttl-file>  > <destination-file>
+```
 
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Eric D. Scott
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
